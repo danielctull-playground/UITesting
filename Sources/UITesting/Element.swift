@@ -1,7 +1,7 @@
 import XCTest
 
 @MainActor
-protocol Element {
+public protocol Element {
   var id: XCUIElement { get }
 }
 

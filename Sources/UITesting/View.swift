@@ -1,10 +1,11 @@
 import XCTest
 
 @MainActor
-protocol View {
+public protocol View {
 
   init()
 
   /// The element to look for to show that this view is on screen.
-  var id: Element { get }
+  associatedtype ID: Element
+  var id: ID { get }
 }
