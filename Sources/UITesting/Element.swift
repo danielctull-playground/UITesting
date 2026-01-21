@@ -1,5 +1,13 @@
 import XCTest
 
+@MainActor
 protocol Element {
-  var rawValue: XCUIElement { get }
+  var id: XCUIElement { get }
+}
+
+extension Element {
+
+  func waitForExistence(timeout: TimeInterval = 10) -> Bool {
+    id.waitForExistence(timeout: timeout)
+  }
 }
