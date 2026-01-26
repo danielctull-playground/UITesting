@@ -1,9 +1,9 @@
 import XCTest
 
 public struct Navigation<Destination: View>: Element {
-  public let id: (Application) -> XCUIElement
+  public let id: Lookup<XCUIElement>
   public init(id: @escaping (Application) -> XCUIElement) {
-    self.id = id
+    self.id = Lookup(id)
   }
 }
 

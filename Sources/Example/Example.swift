@@ -26,6 +26,7 @@ func test() throws {
   let main = try Application(bundleIdentifier: "bundle.id")
     .launch(expecting: Main.self)
     .type(\.field, "hello!")
+    .expect(\.text.label, is: "label")
 
   try main.tap(\.link)
 
