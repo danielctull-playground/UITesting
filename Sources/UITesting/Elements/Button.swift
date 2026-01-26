@@ -14,7 +14,7 @@ extension State {
     _ keyPath: KeyPath<Content, Button>
   ) throws -> Self {
     let button = content[keyPath: keyPath]
-    let s = try expect(exists: button)
+    let s = try expect(exists: keyPath)
     button.id.tap()
     return s
   }
