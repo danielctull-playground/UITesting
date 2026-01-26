@@ -4,26 +4,26 @@ import XCTest
 @dynamicMemberLookup
 public struct Application {
 
-  private let id: XCUIApplication
+  private let rawValue: XCUIApplication
 
   public init() {
-    id = XCUIApplication()
+    rawValue = XCUIApplication()
   }
 
   public init(bundleIdentifier: String) {
-    id = XCUIApplication(bundleIdentifier: bundleIdentifier)
+    rawValue = XCUIApplication(bundleIdentifier: bundleIdentifier)
   }
 
   public subscript<Value>(
     dynamicMember keyPath: KeyPath<XCUIApplication, Value>
   ) -> Value {
-    id[keyPath: keyPath]
+    rawValue[keyPath: keyPath]
   }
 
   public func launch<Content: View>(
     expecting: Content.Type
   ) throws -> State<Content> {
-    id.launch()
+    rawValue.launch()
     return try State(application: self, content: Content())
       .shows()
   }
