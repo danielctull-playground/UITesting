@@ -24,9 +24,7 @@ public struct Application {
     expecting: Content.Type
   ) throws -> State<Content> {
     id.launch()
-    let content = Content(application: self)
-    try content.assertShows()
-    return State(content: content)
+    return try State(content: Content(application: self)).shows()
   }
 }
 

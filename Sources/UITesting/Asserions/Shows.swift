@@ -1,9 +1,12 @@
 
-extension View {
+extension State {
 
-  func assertShows() throws {
-    guard id.waitForExistence() else {
-      throw ViewDoesNotShow(view: self)
+  consuming func shows() throws -> Self {
+    let content = self.content
+    do {
+      return try expect(exists: content.id)
+    } catch {
+      throw ViewDoesNotShow(view: content)
     }
   }
 }

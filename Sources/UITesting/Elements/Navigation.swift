@@ -16,8 +16,9 @@ extension State {
     let navigation = content[keyPath: keyPath]
     let state = try expect(exists: navigation)
     navigation.id.tap()
-    let destination = Destination(application: state.content.application)
-    try destination.assertShows()
-    return State<Destination>(content: destination)
+    let destination = State<Destination>(
+      content: Destination(application: state.content.application)
+    )
+    return try destination.shows()
   }
 }
