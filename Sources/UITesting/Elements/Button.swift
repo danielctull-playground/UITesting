@@ -10,11 +10,11 @@ public struct Button: Element {
 extension View {
 
   @discardableResult
-  func tap(
+  public func tap(
     _ keyPath: KeyPath<Self, Button>
   ) throws -> Self {
     let button = self[keyPath: keyPath]
-    try assertExists(button)
+    try expect(button)
     button.id.tap()
     return self
   }

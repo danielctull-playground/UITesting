@@ -22,7 +22,7 @@ public struct Application {
 
   public func launch<V: View>(expecting: V.Type) throws -> V {
     id.launch()
-    let view = V()
+    let view = V(application: self)
     try view.assertShows()
     return view
   }

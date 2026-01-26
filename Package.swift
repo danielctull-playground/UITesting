@@ -12,5 +12,10 @@ let package = Package(
     .target(
       name: "UITesting"
     ),
+
+    .testTarget(
+      name: "Example",
+      dependencies: ["UITesting"]
+    )
   ]
 )

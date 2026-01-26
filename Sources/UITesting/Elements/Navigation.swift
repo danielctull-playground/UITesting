@@ -1,4 +1,3 @@
-
 import XCTest
 
 public struct Navigation<Destination: View>: Element {
@@ -11,13 +10,13 @@ public struct Navigation<Destination: View>: Element {
 extension View {
 
   @discardableResult
-  func tap<Destination: View>(
+  public func tap<Destination: View>(
     _ keyPath: KeyPath<Self, Navigation<Destination>>
   ) throws -> Destination {
     let navigation = self[keyPath: keyPath]
-    try assertExists(navigation)
+    try expect(navigation)
     navigation.id.tap()
-    let destination = Destination()
+    let destination = Destination(application: application)
     try destination.assertShows()
     return destination
   }

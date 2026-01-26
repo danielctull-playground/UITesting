@@ -1,10 +1,9 @@
-
 import XCTest
 
 extension View {
 
   @discardableResult
-  func assertExists(_ element: some Element) throws -> Self {
+  public func expect(_ element: some Element) throws -> Self {
     guard element.waitForExistence() else {
       throw ElementDoesNotExist(view: self, element: element)
     }
