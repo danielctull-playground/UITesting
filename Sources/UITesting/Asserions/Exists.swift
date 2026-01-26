@@ -3,7 +3,7 @@ import XCTest
 extension State {
 
   @discardableResult
-  public consuming func expect(_ element: some Element) throws -> Self {
+  public consuming func expect(exists element: some Element) throws -> Self {
     guard element.waitForExistence() else {
       throw ElementDoesNotExist(content: content, element: element)
     }
