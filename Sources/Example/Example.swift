@@ -11,6 +11,10 @@ struct Main: View {
     Text(id: application.staticTexts["Hello, world!"])
   }
 
+  var field: TextField {
+    TextField(id: application.staticTexts["Hello, world!"])
+  }
+
   var link: Navigation<Detail> {
     Navigation(id: application.staticTexts["Hello, world!"])
   }
@@ -32,6 +36,7 @@ func test() throws {
 
   let main = try Application(bundleIdentifier: "bundle.id")
     .launch(expecting: Main.self)
+    .type(\.field, "hello!")
 
   try main.tap(\.link)
 
