@@ -1,8 +1,8 @@
 import XCTest
 
 public struct Text: Element {
-  public let id: XCUIElement
-  public init(id: XCUIElement) {
+  public let id: (Application) -> XCUIElement
+  public init(id: @escaping (Application) -> XCUIElement) {
     self.id = id
   }
 }

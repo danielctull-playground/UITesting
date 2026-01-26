@@ -3,32 +3,21 @@ import XCTest
 
 struct Main: View {
 
-  let application: Application
-
   var id: Text { text }
 
-  var text: Text {
-    Text(id: application.staticTexts["Hello, world!"])
-  }
+  let text = Text { $0.staticTexts["Hello, world!"] }
 
-  var field: TextField {
-    TextField(id: application.staticTexts["Hello, world!"])
-  }
+  let field = TextField { $0.staticTexts["Hello, world!"] }
 
-  var link: Navigation<Detail> {
-    Navigation(id: application.staticTexts["Hello, world!"])
-  }
+  let link = Navigation<Detail> { $0.staticTexts["Hello, world!"] }
 }
 
 struct Detail: View  {
-  let application: Application
 
   var id: Text { text }
-  var text: Text {
-    Text(id: application.staticTexts["Hello, world!"])
-  }
-}
 
+  let text = Text { $0.staticTexts["Hello, world!"] }
+}
 
 @MainActor
 func test() throws {

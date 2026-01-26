@@ -3,14 +3,14 @@ import XCTest
 extension State {
 
   @discardableResult
-  public consuming func expect(
-    exists keyPath: KeyPath<Content, some Element>
-  ) throws -> Self {
+  public func expect<E: Element>(
+    exists keyPath: KeyPath<Content, E>
+  ) throws -> E {
     let element = content[keyPath: keyPath]
-    guard element.waitForExistence() else {
+    guard element.id(application).waitForExistence(timeout: 10) else {
       throw ElementDoesNotExist(content: content, element: element)
     }
-    return self
+    return element
   }
 }
 

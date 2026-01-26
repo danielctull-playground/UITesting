@@ -2,9 +2,9 @@
 extension State {
 
   consuming func shows() throws -> Self {
-    let content = self.content
     do {
-      return try expect(exists: \.id)
+      try expect(exists: \.id)
+      return self
     } catch {
       throw ViewDoesNotShow(view: content)
     }

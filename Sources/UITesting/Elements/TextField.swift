@@ -1,8 +1,8 @@
 import XCTest
 
 public struct TextField: Element {
-  public let id: XCUIElement
-  public init(id: XCUIElement) {
+  public let id: (Application) -> XCUIElement
+  public init(id: @escaping (Application) -> XCUIElement) {
     self.id = id
   }
 }
@@ -14,9 +14,8 @@ extension State {
     _ keyPath: KeyPath<Content, TextField>,
     _ text: String
   ) throws -> Self {
-    let textField = content[keyPath: keyPath]
-    let s = try expect(exists: keyPath)
-    textField.id.typeText(text)
-    return s
+    let textField = try expect(exists: keyPath)
+    textField.id(application).typeText(text)
+    return self
   }
 }

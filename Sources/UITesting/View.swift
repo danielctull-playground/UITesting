@@ -3,8 +3,7 @@ import XCTest
 @MainActor
 public protocol View {
 
-  init(application: Application)
-  var application: Application { get }
+  init()
 
   /// The element to look for to show that this view is on screen.
   associatedtype ID: Element
@@ -13,5 +12,6 @@ public protocol View {
 
 @MainActor
 public struct State<Content: View>: ~Copyable {
+  let application: Application
   let content: Content
 }

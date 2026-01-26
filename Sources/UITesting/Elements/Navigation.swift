@@ -1,8 +1,8 @@
 import XCTest
 
 public struct Navigation<Destination: View>: Element {
-  public let id: XCUIElement
-  public init(id: XCUIElement) {
+  public let id: (Application) -> XCUIElement
+  public init(id: @escaping (Application) -> XCUIElement) {
     self.id = id
   }
 }
@@ -13,11 +13,11 @@ extension State {
   public consuming func tap<Destination: View>(
     _ keyPath: KeyPath<Content, Navigation<Destination>>
   ) throws -> State<Destination> {
-    let navigation = content[keyPath: keyPath]
-    let state = try expect(exists: keyPath)
-    navigation.id.tap()
+    let navigation = try expect(exists: keyPath)
+    navigation.id(application).tap()
     let destination = State<Destination>(
-      content: Destination(application: state.content.application)
+      application: application,
+      content: Destination()
     )
     return try destination.shows()
   }

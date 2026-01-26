@@ -1,8 +1,8 @@
 import XCTest
 
 public struct Button: Element {
-  public let id: XCUIElement
-  public init(id: XCUIElement) {
+  public let id: (Application) -> XCUIElement
+  public init(id: @escaping (Application) -> XCUIElement) {
     self.id = id
   }
 }
@@ -13,9 +13,8 @@ extension State {
   public consuming func tap(
     _ keyPath: KeyPath<Content, Button>
   ) throws -> Self {
-    let button = content[keyPath: keyPath]
-    let s = try expect(exists: keyPath)
-    button.id.tap()
-    return s
+    let button = try expect(exists: keyPath)
+    button.id(application).tap()
+    return self
   }
 }
