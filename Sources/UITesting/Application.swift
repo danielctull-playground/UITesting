@@ -20,15 +20,16 @@ public struct Application {
     id[keyPath: keyPath]
   }
 
-  public func launch<V: View>(expecting: V.Type) throws -> State<V> {
+  public func launch<Content: View>(
+    expecting: Content.Type
+  ) throws -> State<Content> {
     id.launch()
-    let view = V(application: self)
-    try view.assertShows()
-    return State(value: view)
+    let content = Content(application: self)
+    try content.assertShows()
+    return State(content: content)
   }
 }
 
 extension Application {
   static let springboard = Application(bundleIdentifier: "com.apple.springboard")
 }
-

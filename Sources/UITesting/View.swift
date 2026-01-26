@@ -12,6 +12,6 @@ public protocol View {
 }
 
 @MainActor
-public struct State<Value>: ~Copyable {
-  let value: Value
+public struct State<Content: View>: ~Copyable {
+  let content: Content
 }
