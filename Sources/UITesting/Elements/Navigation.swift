@@ -7,17 +7,17 @@ public struct Navigation<Destination: View>: Element {
   }
 }
 
-extension View {
+extension State where Value: View {
 
   @discardableResult
-  public func tap<Destination: View>(
-    _ keyPath: KeyPath<Self, Navigation<Destination>>
-  ) throws -> Destination {
-    let navigation = self[keyPath: keyPath]
-    try expect(navigation)
+  public consuming func tap<Destination: View>(
+    _ keyPath: KeyPath<Value, Navigation<Destination>>
+  ) throws -> State<Destination> {
+    let navigation = value[keyPath: keyPath]
+    let state = try expect(navigation)
     navigation.id.tap()
-    let destination = Destination(application: application)
+    let destination = Destination(application: state.value.application)
     try destination.assertShows()
-    return destination
+    return State<Destination>(value: destination)
   }
 }

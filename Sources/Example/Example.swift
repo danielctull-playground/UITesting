@@ -30,8 +30,14 @@ struct Detail: View  {
 func test() throws {
 
 
-  try Application(bundleIdentifier: "bundle.id")
+  let main = try Application(bundleIdentifier: "bundle.id")
     .launch(expecting: Main.self)
-    .tap(\.link)
+
+  try main.tap(\.link)
+
+//  try main.tap(\.link) // fails if uncommented, consumed more than once.
+
+
+
 
 }

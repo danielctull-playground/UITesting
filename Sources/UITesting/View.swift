@@ -10,3 +10,8 @@ public protocol View {
   associatedtype ID: Element
   var id: ID { get }
 }
+
+@MainActor
+public struct State<Value>: ~Copyable {
+  let value: Value
+}

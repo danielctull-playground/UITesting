@@ -1,11 +1,11 @@
 import XCTest
 
-extension View {
+extension State where Value: View {
 
   @discardableResult
-  public func expect(_ element: some Element) throws -> Self {
+  public consuming func expect(_ element: some Element) throws -> Self {
     guard element.waitForExistence() else {
-      throw ElementDoesNotExist(view: self, element: element)
+      throw ElementDoesNotExist(view: value, element: element)
     }
     return self
   }

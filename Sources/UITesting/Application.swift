@@ -20,11 +20,11 @@ public struct Application {
     id[keyPath: keyPath]
   }
 
-  public func launch<V: View>(expecting: V.Type) throws -> V {
+  public func launch<V: View>(expecting: V.Type) throws -> State<V> {
     id.launch()
     let view = V(application: self)
     try view.assertShows()
-    return view
+    return State(value: view)
   }
 }
 

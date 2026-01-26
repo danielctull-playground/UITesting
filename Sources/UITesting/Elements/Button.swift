@@ -7,15 +7,15 @@ public struct Button: Element {
   }
 }
 
-extension View {
+extension State where Value: View {
 
   @discardableResult
-  public func tap(
-    _ keyPath: KeyPath<Self, Button>
+  public consuming func tap(
+    _ keyPath: KeyPath<Value, Button>
   ) throws -> Self {
-    let button = self[keyPath: keyPath]
-    try expect(button)
+    let button = value[keyPath: keyPath]
+    let s = try expect(button)
     button.id.tap()
-    return self
+    return s
   }
 }
