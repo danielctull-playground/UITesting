@@ -1,13 +1,16 @@
 import XCTest
 
 @MainActor
+@dynamicMemberLookup
 public protocol Element {
   var id: Query<XCUIElement> { get }
 }
 
 extension Element {
 
-  public var label: Query<String> {
-    id[keyPath: \.label]
+  public subscript<Value>(
+    dynamicMember keyPath: KeyPath<XCUIElement, Value>
+  ) -> Query<Value> {
+    Query { id($0)[keyPath: keyPath] }
   }
 }
