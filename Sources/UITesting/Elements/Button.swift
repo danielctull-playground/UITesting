@@ -2,8 +2,8 @@ import XCTest
 
 public struct Button: Element {
   public let id: Lookup<XCUIElement>
-  public init(id: @escaping (Application) -> XCUIElement) {
-    self.id = Lookup(id)
+  public init(element: @escaping (Application) -> XCUIElement) {
+    self.id = Lookup(element)
   }
 }
 

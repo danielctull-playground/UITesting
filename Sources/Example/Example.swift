@@ -2,37 +2,25 @@ import UITesting
 import XCTest
 
 struct Main: View {
-
-  var id: Text { text }
-
-  let text = Text { $0.staticTexts["Hello, world!"] }
-
-  let field = TextField { $0.staticTexts["Hello, world!"] }
-
-  let link = Navigation<Detail> { $0.staticTexts["Hello, world!"] }
+  var id: Text { title }
+  let title = Text(element: \.staticTexts["main-title"])
+  let username = TextField(element: \.textFields["username"])
+  let password = TextField(element: \.secureTextFields["password"])
+  let login = Navigation<Detail>(element: \.buttons["login"])
 }
 
 struct Detail: View  {
-
-  var id: Text { text }
-
-  let text = Text { $0.staticTexts["Hello, world!"] }
+  var id: Text { title }
+  let title = Text(element: \.staticTexts["detail-title"])
 }
 
 @MainActor
 func test() throws {
 
-
-  let main = try Application(bundleIdentifier: "bundle.id")
+  try Application(bundleIdentifier: "bundle.id")
     .launch(expecting: Main.self)
-    .type(\.field, "hello!")
-    .expect(\.text.label, is: "label")
-
-  try main.tap(\.link)
-
-//  try main.tap(\.link) // fails if uncommented, consumed more than once.
-
-
-
-
+    .type(\.username, "daniel")
+    .type(\.password, "secret")
+    .expect(\.login.label, is: "label")
+    .tap(\.login)
 }
