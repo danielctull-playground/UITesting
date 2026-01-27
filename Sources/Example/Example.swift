@@ -5,7 +5,7 @@ struct Main: View {
   var id: Text { title }
   let title = Text(id: \.staticTexts["main-title"])
   let username = TextField(id: \.textFields["username"])
-  let password = TextField(id: \.secureTextFields["password"])
+  let password = SecureTextField(id: \.secureTextFields["password"])
   let login = Navigation<Detail>(id: \.buttons["login"])
 }
 
