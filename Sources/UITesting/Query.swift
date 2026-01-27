@@ -1,6 +1,6 @@
 
 @dynamicMemberLookup
-public struct Lookup<Value> {
+public struct Query<Value> {
 
   private let action: (Application) -> Value
 
@@ -14,7 +14,7 @@ public struct Lookup<Value> {
 
   public subscript<New>(
     dynamicMember keyPath: KeyPath<Value, New>
-  ) -> Lookup<New> {
-    Lookup<New> { action($0)[keyPath: keyPath] }
+  ) -> Query<New> {
+    Query<New> { action($0)[keyPath: keyPath] }
   }
 }

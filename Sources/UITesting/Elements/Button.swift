@@ -1,9 +1,9 @@
 import XCTest
 
 public struct Button: Element {
-  public let id: Lookup<XCUIElement>
+  public let id: Query<XCUIElement>
   public init(element: @escaping (Application) -> XCUIElement) {
-    self.id = Lookup(element)
+    self.id = Query(element)
   }
 }
 
