@@ -13,7 +13,7 @@ extension State {
   public consuming func tap<Destination: View>(
     _ keyPath: KeyPath<Content, Navigation<Destination>>
   ) throws -> State<Destination> {
-    let navigation = try expect(exists: keyPath)
+    let navigation = try element(at: keyPath)
     navigation.id(application).tap()
     let destination = State<Destination>(
       application: application,

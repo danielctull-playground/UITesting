@@ -14,7 +14,7 @@ extension State {
     _ keyPath: KeyPath<Content, TextField>,
     _ text: String
   ) throws -> Self {
-    let textField = try expect(exists: keyPath)
+    let textField = try element(at: keyPath)
     textField.id(application).typeText(text)
     return self
   }

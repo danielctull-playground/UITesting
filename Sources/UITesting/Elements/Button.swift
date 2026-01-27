@@ -13,7 +13,7 @@ extension State {
   public consuming func tap(
     _ keyPath: KeyPath<Content, Button>
   ) throws -> Self {
-    let button = try expect(exists: keyPath)
+    let button = try element(at: keyPath)
     button.id(application).tap()
     return self
   }
