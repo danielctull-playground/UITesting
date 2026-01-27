@@ -6,6 +6,7 @@ struct Main: View {
   let title = Text(id: \.staticTexts["main-title"])
   let username = TextField(id: \.textFields["username"])
   let password = SecureTextField(id: \.secureTextFields["password"])
+  let agreement = Checkbox(id: \.checkBoxes["agreement"])
   let login = Navigation<Detail>(id: \.buttons["login"])
 }
 
@@ -23,6 +24,7 @@ func test() throws {
       try $0
         .type("daniel", in: \.username)
         .type("secret", in: \.password)
+        .toggle(\.agreement)
         .tap(\.login)
     }
     .expect(\.title.value, is: "hello, daniel")
