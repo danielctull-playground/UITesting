@@ -19,8 +19,8 @@ func test() throws {
 
   try Application(bundleIdentifier: "bundle.id")
     .launch(expecting: Main.self)
-    .type(\.username, "daniel")
-    .type(\.password, "secret")
+    .type("daniel", in: \.username)
+    .type("secret", in: \.password)
     .expect(\.login.label, is: "label")
     .tap(\.login)
 }

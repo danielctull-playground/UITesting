@@ -11,8 +11,8 @@ extension State {
 
   @discardableResult
   public consuming func type(
-    _ keyPath: KeyPath<Content, TextField>,
-    _ text: String
+    _ text: String,
+    in keyPath: KeyPath<Content, TextField>
   ) throws -> Self {
     let textField = try element(at: keyPath)
     textField.id(application).typeText(text)
