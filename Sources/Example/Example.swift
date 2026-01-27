@@ -18,7 +18,7 @@ struct Detail: View  {
 @MainActor
 func test() throws {
 
-  try Application(bundleIdentifier: "bundle.id")
+  try XCUIApplication(bundleIdentifier: "bundle.id")
     .launch(expecting: Main.self)
     .activity("Login") {
       try $0

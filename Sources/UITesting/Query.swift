@@ -1,13 +1,14 @@
+import XCTest
 
 public struct Query<Value> {
 
-  private let action: (Application) -> Value
+  private let action: (XCUIApplication) -> Value
 
-  init(_ action: @escaping (Application) -> Value) {
+  init(_ action: @escaping (XCUIApplication) -> Value) {
     self.action = action
   }
 
-  func callAsFunction(_ application: Application) -> Value {
+  func callAsFunction(_ application: XCUIApplication) -> Value {
     action(application)
   }
 }

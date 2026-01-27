@@ -1,6 +1,7 @@
+import XCTest
 
 @MainActor
 public struct State<Content: View>: ~Copyable {
-  let application: Application
+  let application: XCUIApplication
   let content: Content
 }
