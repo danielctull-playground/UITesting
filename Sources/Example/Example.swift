@@ -3,15 +3,15 @@ import XCTest
 
 struct Main: View {
   var id: Text { title }
-  let title = Text(element: \.staticTexts["main-title"])
-  let username = TextField(element: \.textFields["username"])
-  let password = TextField(element: \.secureTextFields["password"])
-  let login = Navigation<Detail>(element: \.buttons["login"])
+  let title = Text(id: \.staticTexts["main-title"])
+  let username = TextField(id: \.textFields["username"])
+  let password = TextField(id: \.secureTextFields["password"])
+  let login = Navigation<Detail>(id: \.buttons["login"])
 }
 
 struct Detail: View  {
   var id: Text { title }
-  let title = Text(element: \.staticTexts["detail-title"])
+  let title = Text(id: \.staticTexts["detail-title"])
 }
 
 @MainActor

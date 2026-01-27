@@ -2,8 +2,8 @@ import XCTest
 
 public struct TextField: Element {
   public let id: Query<XCUIElement>
-  public init(element: @escaping (Application) -> XCUIElement) {
-    self.id = Query(element)
+  public init(id: @escaping (Application) -> XCUIElement) {
+    self.id = Query(id)
   }
 }
 
