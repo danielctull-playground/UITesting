@@ -2,7 +2,7 @@ import UITesting
 import XCTest
 
 struct Main: View {
-  var id: Text { title }
+  var id: some Element { title }
   let title = Text(id: \.staticTexts["main-title"])
   let username = TextField(id: \.textFields["username"])
   let password = SecureTextField(id: \.secureTextFields["password"])
@@ -10,7 +10,7 @@ struct Main: View {
 }
 
 struct Detail: View  {
-  var id: Text { title }
+  var id: some Element { title }
   let title = Text(id: \.staticTexts["detail-title"])
 }
 
