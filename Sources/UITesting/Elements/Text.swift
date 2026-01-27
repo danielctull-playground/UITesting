@@ -6,3 +6,10 @@ public struct Text: Element {
     self.id = Query(id)
   }
 }
+
+extension Text {
+
+  public var value: Query<String?> {
+    id.map { $0.value as? String }
+  }
+}

@@ -21,6 +21,6 @@ func test() throws {
     .launch(expecting: Main.self)
     .type("daniel", in: \.username)
     .type("secret", in: \.password)
-    .expect(\.login.label, is: "label")
     .tap(\.login)
+    .expect(\.title.value, is: "hello, daniel")
 }

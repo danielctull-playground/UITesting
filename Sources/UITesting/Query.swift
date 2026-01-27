@@ -11,3 +11,10 @@ public struct Query<Value> {
     action(application)
   }
 }
+
+extension Query {
+
+  func map<New>(_ transform: @escaping (Value) -> New) -> Query<New> {
+    Query<New> { transform(action($0)) }
+  }
+}
