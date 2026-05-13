@@ -7,6 +7,13 @@ public struct SecureTextField: Element {
   }
 }
 
+extension SecureTextField {
+
+  public init(_ key: String) {
+    self.init(id: \.secureTextFields[key])
+  }
+}
+
 extension State {
 
   @discardableResult

@@ -9,6 +9,13 @@ public struct Text: Element {
 
 extension Text {
 
+  public init(_ key: String) {
+    self.init(id: \.staticTexts[key])
+  }
+}
+
+extension Text {
+
   public var value: Query<String?> {
     id.map { $0.value as? String }
   }

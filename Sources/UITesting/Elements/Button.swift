@@ -7,6 +7,13 @@ public struct Button: Element {
   }
 }
 
+extension Button {
+
+  public init(_ key: String) {
+    self.init(id: \.buttons[key])
+  }
+}
+
 extension State {
 
   @discardableResult

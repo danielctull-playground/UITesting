@@ -7,6 +7,13 @@ public struct TextField: Element {
   }
 }
 
+extension TextField {
+
+  public init(_ key: String) {
+    self.init(id: \.textFields[key])
+  }
+}
+
 extension State {
 
   @discardableResult

@@ -7,6 +7,13 @@ public struct Checkbox: Element {
   }
 }
 
+extension Checkbox {
+
+  public init(_ key: String) {
+    self.init(id: \.checkBoxes[key])
+  }
+}
+
 extension State {
 
   @discardableResult
