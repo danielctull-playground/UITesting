@@ -2,7 +2,7 @@ import XCTest
 
 extension XCUIApplication {
 
-  public func launch<Content: View>(
+  public func launch<Content: Screen>(
     expecting: Content.Type
   ) throws -> UITesting.State<Content> {
     launch()

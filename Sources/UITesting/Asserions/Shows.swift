@@ -14,7 +14,7 @@ extension State {
 // MARK: ViewDoesNotShow
 
 @MainActor
-struct ViewDoesNotShow<V: View>: Error {
+struct ViewDoesNotShow<V: Screen>: Error {
   fileprivate let view: V
 }
 

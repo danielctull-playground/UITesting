@@ -1,6 +1,6 @@
 import XCTest
 
-public struct Navigation<Destination: View>: Element {
+public struct Navigation<Destination: Screen>: Element {
   public let id: Query<XCUIElement>
   public init(id: @escaping (XCUIApplication) -> XCUIElement) {
     self.id = Query(id)
@@ -10,7 +10,7 @@ public struct Navigation<Destination: View>: Element {
 extension State {
 
   @discardableResult
-  public consuming func tap<Destination: View>(
+  public consuming func tap<Destination: Screen>(
     _ keyPath: KeyPath<Content, Navigation<Destination>>
   ) throws -> State<Destination> {
     let navigation = try element(at: keyPath)

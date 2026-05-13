@@ -1,7 +1,7 @@
 import UITesting
 import XCTest
 
-struct Main: View {
+struct Main: Screen {
   var id: some Element { title }
   let title = Text("main-title")
   let username = TextField("username")
@@ -10,7 +10,7 @@ struct Main: View {
   let login = Navigation<Detail>(id: \.buttons["login"])
 }
 
-struct Detail: View  {
+struct Detail: Screen  {
   var id: some Element { title }
   let title = Text("detail-title")
 }

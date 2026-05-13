@@ -25,7 +25,7 @@ extension State {
 // MARK: ElementDoesNotExist
 
 @MainActor
-struct ElementDoesNotExist<Content: View, E: Element>: Error {
+struct ElementDoesNotExist<Content: Screen, E: Element>: Error {
   fileprivate let content: Content
   fileprivate let element: E
 }

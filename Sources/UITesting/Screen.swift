@@ -1,7 +1,7 @@
 import XCTest
 
 @MainActor
-public protocol View {
+public protocol Screen {
 
   init()
 
@@ -9,3 +9,6 @@ public protocol View {
   associatedtype ID: Element
   var id: ID { get }
 }
+
+@available(*, deprecated, renamed: "Screen")
+public typealias View = Screen
