@@ -4,9 +4,9 @@ extension XCUIApplication {
 
   public func launch<Content: Screen>(
     expecting: Content.Type
-  ) throws -> UITesting.State<Content> {
+  ) throws -> UITesting.State<Content, Never> {
     launch()
-    return try UITesting.State<Content>(application: self, content: Content())
+    return try UITesting.State(application: self, content: Content())
       .shows()
   }
 }

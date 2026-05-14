@@ -12,3 +12,14 @@ public protocol Screen {
 
 @available(*, deprecated, renamed: "Screen")
 public typealias View = Screen
+
+//extension Never: Element {
+//  public var id: Query<XCUIElement> { fatalError() }
+//  public typealias Destination = Never
+//}
+
+extension Never: Screen {
+  public typealias ID = Text<Never>
+  public var id: Text<Never> { fatalError() }
+  public init() { fatalError() }
+}

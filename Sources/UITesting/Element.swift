@@ -3,6 +3,7 @@ import XCTest
 @MainActor
 @dynamicMemberLookup
 public protocol Element {
+  associatedtype Destination: Screen
   var id: Query<XCUIElement> { get }
 }
 

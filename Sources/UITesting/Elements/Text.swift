@@ -1,16 +1,21 @@
 import XCTest
 
-public struct Text: Element {
+public struct Text<Destination: Screen>: Element {
+
   public let id: Query<XCUIElement>
-  public init(id: @escaping (XCUIApplication) -> XCUIElement) {
+
+  public init(
+    id: @escaping (XCUIApplication) -> XCUIElement,
+    destination: Destination.Type = Never.self
+  ) {
     self.id = Query(id)
   }
 }
 
 extension Text {
 
-  public init(_ key: String) {
-    self.init(id: \.staticTexts[key])
+  public init(_ key: String, destination: Destination.Type = Never.self) {
+    self.init(id: \.buttons[key], destination: destination)
   }
 }
 
