@@ -7,7 +7,7 @@ struct Main: Screen {
   let username = TextField("username")
   let password = SecureTextField("password")
   let agreement = Checkbox("agreement")
-  let login = Navigation<Detail>(id: \.buttons["login"])
+  let login = Button("login", destination: Detail.self)
 }
 
 struct Detail: Screen  {
