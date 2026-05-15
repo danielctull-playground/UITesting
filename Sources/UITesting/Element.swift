@@ -4,7 +4,7 @@ import XCTest
 @dynamicMemberLookup
 public protocol Element {
   associatedtype Destination: Screen
-  var id: Query<XCUIElement> { get }
+  var id: ID { get }
 }
 
 extension Element {

@@ -1,5 +1,7 @@
 import XCTest
 
+public typealias ID = Query<XCUIElement>
+
 public struct Query<Value> {
 
   private let action: (XCUIApplication) -> Value
