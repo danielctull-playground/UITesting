@@ -4,7 +4,30 @@ import XCTest
 @dynamicMemberLookup
 public protocol Element {
   associatedtype Destination: Screen
+  static var kind: XCUIElement.ElementType { get }
   var id: ID { get }
+  init(
+    id: @escaping (XCUIApplication) -> XCUIElement,
+    destination: Destination.Type
+  )
+}
+
+extension Element {
+
+  public init(_ key: String, destination: Destination.Type) {
+    self.init(id: { $0.descendants(matching: Self.kind)[key] }, destination: destination)
+  }
+}
+
+extension Element where Destination == Never {
+
+  public init(id: @escaping (XCUIApplication) -> XCUIElement) {
+    self.init(id: id, destination: Never.self)
+  }
+
+  public init(_ identifier: String) {
+    self.init { $0.descendants(matching: Self.kind)[identifier] }
+  }
 }
 
 extension Element {

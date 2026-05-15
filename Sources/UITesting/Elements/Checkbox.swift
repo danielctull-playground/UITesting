@@ -1,16 +1,10 @@
 import XCTest
 
 public struct Checkbox: Element {
+  public static let kind = XCUIElement.ElementType.checkBox
   public typealias Destination = Never
   public let id: Query<XCUIElement>
-  public init(id: @escaping (XCUIApplication) -> XCUIElement) {
+  public init(id: @escaping (XCUIApplication) -> XCUIElement, destination: Never.Type) {
     self.id = Query(id)
-  }
-}
-
-extension Checkbox {
-
-  public init(_ key: String) {
-    self.init(id: \.checkBoxes[key])
   }
 }
