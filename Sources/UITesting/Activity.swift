@@ -2,6 +2,7 @@ import XCTest
 
 extension State {
 
+  @discardableResult
   public consuming func activity<Return>(
     _ name: String,
     perform action: (consuming Self) throws -> State<Return>
