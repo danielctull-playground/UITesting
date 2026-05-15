@@ -14,16 +14,3 @@ extension SecureTextField {
     self.init(id: \.secureTextFields[key])
   }
 }
-
-extension State {
-
-  @discardableResult
-  public consuming func type(
-    _ text: String,
-    in keyPath: KeyPath<Content, SecureTextField>
-  ) throws -> Self {
-    let textField = try element(at: keyPath)
-    textField.id(application).typeText(text)
-    return self
-  }
-}
