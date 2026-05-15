@@ -2,7 +2,7 @@ import UITesting
 import XCTest
 
 struct Main: Screen {
-  var id: some Element { title }
+  var id: Query<XCUIElement> { title.id }
   let title = Text("main-title")
   let username = TextField("username")
   let password = SecureTextField("password")
@@ -11,7 +11,7 @@ struct Main: Screen {
 }
 
 struct Detail: Screen  {
-  var id: some Element { title }
+  var id: Query<XCUIElement> { title.id }
   let title = Text("detail-title")
 }
 
