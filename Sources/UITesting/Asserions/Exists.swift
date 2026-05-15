@@ -43,6 +43,11 @@ extension State {
 struct ElementDoesNotExist<Content: Screen, E: Element>: Error {
   fileprivate let content: Content
   fileprivate let element: E
+
+  init(content: Content, element: E) {
+    self.content = content
+    self.element = element
+  }
 }
 
 extension ElementDoesNotExist: @MainActor CustomStringConvertible {
