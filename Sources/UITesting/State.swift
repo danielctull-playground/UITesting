@@ -13,8 +13,8 @@ extension State {
     _ action: @Sendable @MainActor (XCUIElement) -> (repeat each Parameter) -> Void,
     _ parameter: repeat each Parameter
   ) throws -> Self where E.Destination == Never {
-    let button = try element(at: keyPath)
-    action(button.id(application))(repeat each parameter)
+    let element = try element(at: keyPath)
+    action(element.id(application))(repeat each parameter)
     return self
   }
 
@@ -24,8 +24,8 @@ extension State {
     _ parameter: repeat each Parameter
   ) throws -> State<E.Destination> {
 
-    let button = try element(at: keyPath)
-    action(button.id(application))(repeat each parameter)
+    let element = try element(at: keyPath)
+    action(element.id(application))(repeat each parameter)
 
     let destination = State<E.Destination>(
       application: application,
