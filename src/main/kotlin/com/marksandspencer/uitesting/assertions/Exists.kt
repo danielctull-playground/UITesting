@@ -1,32 +1,34 @@
-import XCTest
+package com.marksandspencer.uitesting.assertions
 
-extension State {
+import com.marksandspencer.uitesting.Element
+import com.marksandspencer.uitesting.Screen
+import com.marksandspencer.uitesting.State
 
-  func exists(_ element: Query<XCUIElement>) throws {
-    guard element(application).waitForExistence(timeout: 10) else {
-      throw ElementDoesNotExist(content: content, element: element)
+internal fun <Content : Screen, E : Element<*>> State<Content>.element(
+    select: Content.() -> E,
+): E {
+    val element = content.select()
+    try {
+        compose.waitUntil(timeoutMillis = 10_000) {
+            compose.onAllNodes(element.matcher)
+                .fetchSemanticsNodes()
+                .isNotEmpty()
+        }
+    } catch (cause: Exception) {
+        throw ElementDoesNotExist(content, element, cause)
     }
-  }
-
-  @discardableResult
-  public consuming func expect(
-    exists keyPath: KeyPath<Content, some Element>
-  ) throws -> Self {
-    try exists(content[keyPath: keyPath].id)
-    return self
-  }
+    return element
 }
 
-// MARK: ElementDoesNotExist
-
-@MainActor
-struct ElementDoesNotExist<Content: Screen>: Error {
-  fileprivate let content: Content
-  fileprivate let element: Query<XCUIElement>
+fun <Content : Screen> State<Content>.expect(
+    exists: Content.() -> Element<*>,
+): State<Content> {
+    element(exists)
+    return this
 }
 
-extension ElementDoesNotExist: @MainActor CustomStringConvertible {
-  var description: String {
-    "Element does not exist. \(content) \(element)"
-  }
-}
+internal class ElementDoesNotExist(
+    val screen: Screen,
+    val element: Element<*>,
+    cause: Throwable? = null,
+) : AssertionError("Element does not exist. screen=$screen element=$element", cause)

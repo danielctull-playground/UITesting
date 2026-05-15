@@ -1,51 +1,10 @@
-import XCTest
+package com.marksandspencer.uitesting
 
-@MainActor
-@dynamicMemberLookup
-public protocol Element {
-  associatedtype Destination: Screen
-  static var kind: XCUIElement.ElementType { get }
-  var id: ID { get }
-  init(
-    id: @escaping (XCUIApplication) -> XCUIElement,
-    destination: Destination.Type
-  )
-}
+import androidx.compose.ui.test.SemanticsMatcher
+import androidx.compose.ui.test.SemanticsNodeInteraction
 
-extension Element {
-
-  public init(_ key: String, destination: Destination.Type) {
-    self.init(id: { $0.descendants(matching: Self.kind)[key] }, destination: destination)
-  }
-}
-
-extension Element where Destination == Never {
-
-  public init(id: @escaping (XCUIApplication) -> XCUIElement) {
-    self.init(id: id, destination: Never.self)
-  }
-
-  public init(_ identifier: String) {
-    self.init { $0.descendants(matching: Self.kind)[identifier] }
-  }
-}
-
-extension Element {
-
-  public subscript<Value>(
-    dynamicMember keyPath: KeyPath<XCUIElement, Value>
-  ) -> Query<Value> {
-    Query { id($0)[keyPath: keyPath] }
-  }
-}
-
-extension State {
-
-  func element<E: Element>(
-    at keyPath: KeyPath<Content, E>
-  ) throws -> E {
-    let element = content[keyPath: keyPath]
-    try exists(element.id)
-    return element
-  }
+interface Element<out D : Screen> {
+    val matcher: SemanticsMatcher
+    val id: Query<SemanticsNodeInteraction>
+        get() = Query { it.onNode(matcher) }
 }

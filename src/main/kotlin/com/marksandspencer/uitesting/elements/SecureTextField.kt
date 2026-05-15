@@ -1,10 +1,9 @@
-import XCTest
+package com.marksandspencer.uitesting.elements
 
-public struct SecureTextField: Element {
-  public static let kind = XCUIElement.ElementType.secureTextField
-  public typealias Destination = Never
-  public let id: Query<XCUIElement>
-  public init(id: @escaping (XCUIApplication) -> XCUIElement, destination: Never.Type) {
-    self.id = Query(id)
-  }
+import androidx.compose.ui.test.SemanticsMatcher
+import androidx.compose.ui.test.hasTestTag
+
+class SecureTextField(override val matcher: SemanticsMatcher) : TextInput {
+
+    constructor(tag: String) : this(hasTestTag(tag))
 }

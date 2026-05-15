@@ -1,20 +1,16 @@
-import XCTest
+package com.marksandspencer.uitesting.actions
 
-extension State {
+import androidx.compose.ui.test.performTextInput
+import com.marksandspencer.uitesting.Screen
+import com.marksandspencer.uitesting.State
+import com.marksandspencer.uitesting.assertions.element
+import com.marksandspencer.uitesting.elements.TextInput
 
-  @discardableResult
-  public consuming func type(
-    _ text: String,
-    in keyPath: KeyPath<Content, TextField>
-  ) throws -> Self {
-    try perform(with: keyPath, XCUIElement.typeText, text)
-  }
-
-  @discardableResult
-  public consuming func type(
-    _ text: String,
-    in keyPath: KeyPath<Content, SecureTextField>
-  ) throws -> Self {
-    try perform(with: keyPath, XCUIElement.typeText, text)
-  }
+fun <Content : Screen> State<Content>.type(
+    text: String,
+    into: Content.() -> TextInput,
+): State<Content> {
+    val textField = element(into)
+    textField.id(compose).performTextInput(text)
+    return this
 }

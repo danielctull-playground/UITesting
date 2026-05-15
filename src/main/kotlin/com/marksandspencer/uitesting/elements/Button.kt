@@ -1,15 +1,18 @@
-import XCTest
+package com.marksandspencer.uitesting.elements
 
-public struct Button<Destination: Screen>: Element {
+import androidx.compose.ui.test.SemanticsMatcher
+import androidx.compose.ui.test.hasTestTag
+import com.marksandspencer.uitesting.Element
+import com.marksandspencer.uitesting.HasDestination
+import com.marksandspencer.uitesting.Screen
 
-  public static var kind: XCUIElement.ElementType { .button }
+class Button<D : Screen>(
+    override val matcher: SemanticsMatcher,
+    override val destination: () -> D,
+) : Element<D>, HasDestination<D>
 
-  public let id: Query<XCUIElement>
+fun Button(tag: String): Button<Nowhere> =
+    Button(hasTestTag(tag)) { Nowhere }
 
-  public init(
-    id: @escaping (XCUIApplication) -> XCUIElement,
-    destination: Destination.Type = Never.self
-  ) {
-    self.id = Query(id)
-  }
-}
+fun <D : Screen> Button(tag: String, destination: () -> D): Button<D> =
+    Button(hasTestTag(tag), destination)

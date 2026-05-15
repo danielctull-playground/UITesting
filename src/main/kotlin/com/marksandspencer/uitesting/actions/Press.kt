@@ -1,20 +1,14 @@
-import XCTest
+package com.marksandspencer.uitesting.actions
 
-extension State {
-  
-  /// Sends a long press gesture to a hittable point computed for the element,
-  /// holding for the specified duration.
-  ///
-  /// - Parameters:
-  ///   - keyPath: The key path to the element to be pressed.
-  ///   - duration: Duration in seconds.
-  ///
-  /// - Returns: The screen state.
-  @discardableResult
-  public consuming func press<E: Element>(
-    _ keyPath: KeyPath<Content, E>,
-    for duration: TimeInterval
-  ) throws -> Self where E.Destination == Never {
-    try perform(with: keyPath, XCUIElement.press(forDuration:), duration)
-  }
-}
+import androidx.compose.ui.test.longClick
+import androidx.compose.ui.test.performTouchInput
+import com.marksandspencer.uitesting.Element
+import com.marksandspencer.uitesting.Screen
+import com.marksandspencer.uitesting.State
+import com.marksandspencer.uitesting.elements.Nowhere
+import com.marksandspencer.uitesting.perform
+
+fun <Content : Screen> State<Content>.press(
+    select: Content.() -> Element<Nowhere>,
+    durationMs: Long,
+): State<Content> = perform(select) { performTouchInput { longClick(durationMillis = durationMs) } }

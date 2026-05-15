@@ -1,24 +1,13 @@
-import XCTest
+package com.marksandspencer.uitesting
 
-extension State {
+import android.util.Log
 
-  public consuming func activity<Return>(
-    _ name: String,
-    perform action: (consuming Self) throws -> State<Return>
-  ) rethrows -> State<Return> {
-
-    // State is non-copyable, so we must create a new State inside the
-    // XCTContext.runActivity closure. Also on the way out the state must be
-    // recreated because it can't be copied out of the closure.
-
-    let application = self.application
-    let content = self.content
-
-    let new = try XCTContext.runActivity(named: name) { _ in
-      let state = State(application: application, content: content)
-      return try action(state).content
+fun <Content : Screen, Return : Screen> State<Content>.activity(
+    name: String,
+    action: (State<Content>) -> State<Return>,
+): State<Return> {
+    Log.d("UITesting", "Activity: $name — start")
+    return action(this).also {
+        Log.d("UITesting", "Activity: $name — end")
     }
-
-    return State<Return>(application: application, content: new)
-  }
 }

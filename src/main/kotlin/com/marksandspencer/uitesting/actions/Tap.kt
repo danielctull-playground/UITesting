@@ -1,32 +1,27 @@
-import XCTest
+package com.marksandspencer.uitesting.actions
 
-extension State {
+import androidx.compose.ui.test.doubleClick
+import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTouchInput
+import com.marksandspencer.uitesting.Element
+import com.marksandspencer.uitesting.Screen
+import com.marksandspencer.uitesting.State
+import com.marksandspencer.uitesting.elements.Nowhere
+import com.marksandspencer.uitesting.perform
+import com.marksandspencer.uitesting.performNavigate
 
-  @discardableResult
-  public consuming func tap<E: Element>(
-    _ keyPath: KeyPath<Content, E>
-  ) throws -> Self where E.Destination == Never {
-    try perform(with: keyPath, XCUIElement.tap)
-  }
+fun <Content : Screen> State<Content>.tap(
+    select: Content.() -> Element<Nowhere>,
+): State<Content> = perform(select) { performClick() }
 
-  @discardableResult
-  public consuming func tap<E: Element>(
-    _ keyPath: KeyPath<Content, E>
-  ) throws -> State<E.Destination> {
-    try perform(with: keyPath, XCUIElement.tap)
-  }
+fun <Content : Screen, Destination : Screen> State<Content>.navigate(
+    select: Content.() -> Element<Destination>,
+): State<Destination> = performNavigate(select) { performClick() }
 
-  @discardableResult
-  public consuming func doubleTap<E: Element>(
-    _ keyPath: KeyPath<Content, E>
-  ) throws -> Self where E.Destination == Never {
-    try perform(with: keyPath, XCUIElement.doubleTap)
-  }
+fun <Content : Screen> State<Content>.doubleTap(
+    select: Content.() -> Element<Nowhere>,
+): State<Content> = perform(select) { performTouchInput { doubleClick() } }
 
-  @discardableResult
-  public consuming func doubleTap<E: Element>(
-    _ keyPath: KeyPath<Content, E>
-  ) throws -> State<E.Destination> {
-    try perform(with: keyPath, XCUIElement.doubleTap)
-  }
-}
+fun <Content : Screen, Destination : Screen> State<Content>.doubleTapNavigate(
+    select: Content.() -> Element<Destination>,
+): State<Destination> = performNavigate(select) { performTouchInput { doubleClick() } }

@@ -1,31 +1,22 @@
-import XCTest
+package com.marksandspencer.uitesting.assertions
 
-extension State {
+import com.marksandspencer.uitesting.Query
+import com.marksandspencer.uitesting.Screen
+import com.marksandspencer.uitesting.State
 
-  @discardableResult
-  public consuming func expect<Value: Equatable>(
-    _ keyPath: KeyPath<Content, Query<Value>>,
-    is expected: Value
-  ) throws -> Self {
-    let query = content[keyPath: keyPath]
-    let value = query(application)
-    guard value == expected else {
-      throw IncorrectValue(value: value, expected: expected)
+fun <Content : Screen, Value> State<Content>.expect(
+    query: Content.() -> Query<Value>,
+    isEqualTo: Value,
+): State<Content> {
+    val q = content.query()
+    val value = q(compose)
+    if (value != isEqualTo) {
+        throw IncorrectValue(value, isEqualTo)
     }
-    return self
-  }
+    return this
 }
 
-// MARK: IncorrectValue
-
-@MainActor
-struct IncorrectValue<Value>: Error {
-  fileprivate let value: Value
-  fileprivate let expected: Value
-}
-
-extension IncorrectValue: @MainActor CustomStringConvertible {
-  var description: String {
-    "Value is incorrect. Was \(value) expected: \(expected)"
-  }
-}
+internal class IncorrectValue(
+    val actual: Any?,
+    val expected: Any?,
+) : AssertionError("Value is incorrect. Was $actual expected: $expected")

@@ -1,37 +1,37 @@
-import XCTest
+package com.marksandspencer.uitesting
 
-@MainActor
-public struct State<Content: Screen>: ~Copyable {
-  let application: XCUIApplication
-  let content: Content
+import androidx.compose.ui.test.ComposeUiTest
+import androidx.compose.ui.test.SemanticsNodeInteraction
+import com.marksandspencer.uitesting.assertions.element
+import com.marksandspencer.uitesting.assertions.shows
+import com.marksandspencer.uitesting.elements.Nowhere
+
+class State<Content : Screen> @PublishedApi internal constructor(
+    internal val compose: ComposeUiTest,
+    internal val content: Content,
+)
+
+internal fun <Content : Screen> State<Content>.perform(
+    select: Content.() -> Element<Nowhere>,
+    action: SemanticsNodeInteraction.() -> Unit,
+): State<Content> {
+    val el = element(select)
+    el.id(compose).action()
+    return this
 }
 
-extension State {
+internal fun <Content : Screen, D : Screen> State<Content>.performNavigate(
+    select: Content.() -> Element<D>,
+    action: SemanticsNodeInteraction.() -> Unit,
+): State<D> {
+    val el = element(select)
+    el.id(compose).action()
+    @Suppress("UNCHECKED_CAST")
+    val destination = (el as? HasDestination<D>)?.destination?.invoke()
+        ?: error("Element does not have a destination")
+    return State(compose = compose, content = destination).shows()
+}
 
-  consuming func perform<E: Element, each Parameter>(
-    with keyPath: KeyPath<Content, E>,
-    _ action: @Sendable @MainActor (XCUIElement) -> (repeat each Parameter) -> Void,
-    _ parameter: repeat each Parameter
-  ) throws -> Self where E.Destination == Never {
-    let element = try element(at: keyPath)
-    action(element.id(application))(repeat each parameter)
-    return self
-  }
-
-  consuming func perform<E: Element, each Parameter>(
-    with keyPath: KeyPath<Content, E>,
-    _ action: @Sendable @MainActor (XCUIElement) -> (repeat each Parameter) -> Void,
-    _ parameter: repeat each Parameter
-  ) throws -> State<E.Destination> {
-
-    let element = try element(at: keyPath)
-    action(element.id(application))(repeat each parameter)
-
-    let destination = State<E.Destination>(
-      application: application,
-      content: E.Destination()
-    )
-
-    return try destination.shows()
-  }
+internal interface HasDestination<D : Screen> {
+    val destination: () -> D
 }

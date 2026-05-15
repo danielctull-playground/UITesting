@@ -6,3 +6,12 @@ DerivedData/
 .swiftpm/configuration/registries.json
 .swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
 .netrc
+
+# Android/Gradle
+.gradle/
+build/
+local.properties
+*.iml
+.idea/
+java_pid1590.hprof
+*.hprof

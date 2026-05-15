@@ -1,10 +1,10 @@
-import XCTest
+package com.marksandspencer.uitesting.elements
 
-public struct Checkbox: Element {
-  public static let kind = XCUIElement.ElementType.checkBox
-  public typealias Destination = Never
-  public let id: Query<XCUIElement>
-  public init(id: @escaping (XCUIApplication) -> XCUIElement, destination: Never.Type) {
-    self.id = Query(id)
-  }
+import androidx.compose.ui.test.SemanticsMatcher
+import androidx.compose.ui.test.hasTestTag
+import com.marksandspencer.uitesting.Element
+
+class Checkbox(override val matcher: SemanticsMatcher) : Element<Nowhere> {
+
+    constructor(tag: String) : this(hasTestTag(tag))
 }
