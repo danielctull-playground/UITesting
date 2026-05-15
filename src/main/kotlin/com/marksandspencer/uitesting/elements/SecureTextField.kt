@@ -1,28 +1,9 @@
-import XCTest
+package com.marksandspencer.uitesting.elements
 
-public struct SecureTextField: Element {
-  public let id: Query<XCUIElement>
-  public init(id: @escaping (XCUIApplication) -> XCUIElement) {
-    self.id = Query(id)
-  }
-}
+import androidx.compose.ui.test.SemanticsMatcher
+import androidx.compose.ui.test.hasTestTag
 
-extension SecureTextField {
+class SecureTextField(override val matcher: SemanticsMatcher) : TextInput {
 
-  public init(_ key: String) {
-    self.init(id: \.secureTextFields[key])
-  }
-}
-
-extension State {
-
-  @discardableResult
-  public consuming func type(
-    _ text: String,
-    in keyPath: KeyPath<Content, SecureTextField>
-  ) throws -> Self {
-    let textField = try element(at: keyPath)
-    textField.id(application).typeText(text)
-    return self
-  }
+    constructor(tag: String) : this(hasTestTag(tag))
 }

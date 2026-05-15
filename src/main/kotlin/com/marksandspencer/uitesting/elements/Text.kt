@@ -1,22 +1,21 @@
-import XCTest
+package com.marksandspencer.uitesting.elements
 
-public struct Text: Element {
-  public let id: Query<XCUIElement>
-  public init(id: @escaping (XCUIApplication) -> XCUIElement) {
-    self.id = Query(id)
-  }
-}
+import androidx.compose.ui.semantics.SemanticsProperties
+import androidx.compose.ui.test.SemanticsMatcher
+import androidx.compose.ui.test.hasTestTag
+import com.marksandspencer.uitesting.Element
+import com.marksandspencer.uitesting.Query
 
-extension Text {
+class Text(override val matcher: SemanticsMatcher) : Element {
 
-  public init(_ key: String) {
-    self.init(id: \.staticTexts[key])
-  }
-}
+    constructor(tag: String) : this(hasTestTag(tag))
 
-extension Text {
-
-  public var value: Query<String?> {
-    id.map { $0.value as? String }
-  }
+    val value: Query<String?>
+        get() = id.map { interaction ->
+            interaction.fetchSemanticsNode()
+                .config
+                .getOrElseNullable(SemanticsProperties.Text) { null }
+                ?.firstOrNull()
+                ?.text
+        }
 }

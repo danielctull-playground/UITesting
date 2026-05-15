@@ -1,21 +1,13 @@
-import XCTest
+package com.marksandspencer.uitesting
 
-public struct Query<Value> {
+import androidx.compose.ui.test.ComposeUiTest
 
-  private let action: (XCUIApplication) -> Value
+class Query<Value> internal constructor(
+    private val action: (ComposeUiTest) -> Value,
+) {
 
-  init(_ action: @escaping (XCUIApplication) -> Value) {
-    self.action = action
-  }
+    operator fun invoke(test: ComposeUiTest): Value = action(test)
 
-  func callAsFunction(_ application: XCUIApplication) -> Value {
-    action(application)
-  }
-}
-
-extension Query {
-
-  func map<New>(_ transform: @escaping (Value) -> New) -> Query<New> {
-    Query<New> { transform(action($0)) }
-  }
+    fun <New> map(transform: (Value) -> New): Query<New> =
+        Query { transform(action(it)) }
 }

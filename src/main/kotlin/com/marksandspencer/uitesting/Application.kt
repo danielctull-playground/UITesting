@@ -1,16 +1,10 @@
-import XCTest
+package com.marksandspencer.uitesting
 
-extension XCUIApplication {
+import androidx.compose.ui.test.ComposeUiTest
+import com.marksandspencer.uitesting.assertions.shows
 
-  public func launch<Content: Screen>(
-    expecting: Content.Type
-  ) throws -> UITesting.State<Content> {
-    launch()
-    return try UITesting.State<Content>(application: self, content: Content())
-      .shows()
-  }
-}
-
-extension XCUIApplication {
-  static let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard")
+inline fun <reified Content : Screen> ComposeUiTest.launch(): State<Content> {
+    @Suppress("DEPRECATION")
+    val content = Content::class.java.newInstance()
+    return State(compose = this, content = content).shows()
 }

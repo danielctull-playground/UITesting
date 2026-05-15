@@ -1,16 +1,10 @@
-import XCTest
+package com.marksandspencer.uitesting
 
-@MainActor
-@dynamicMemberLookup
-public protocol Element {
-  var id: Query<XCUIElement> { get }
-}
+import androidx.compose.ui.test.SemanticsMatcher
+import androidx.compose.ui.test.SemanticsNodeInteraction
 
-extension Element {
-
-  public subscript<Value>(
-    dynamicMember keyPath: KeyPath<XCUIElement, Value>
-  ) -> Query<Value> {
-    Query { id($0)[keyPath: keyPath] }
-  }
+interface Element {
+    val matcher: SemanticsMatcher
+    val id: Query<SemanticsNodeInteraction>
+        get() = Query { it.onNode(matcher) }
 }

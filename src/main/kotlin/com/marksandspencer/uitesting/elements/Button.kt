@@ -1,27 +1,22 @@
-import XCTest
+package com.marksandspencer.uitesting.elements
 
-public struct Button: Element {
-  public let id: Query<XCUIElement>
-  public init(id: @escaping (XCUIApplication) -> XCUIElement) {
-    self.id = Query(id)
-  }
+import androidx.compose.ui.test.SemanticsMatcher
+import androidx.compose.ui.test.hasTestTag
+import androidx.compose.ui.test.performClick
+import com.marksandspencer.uitesting.Element
+import com.marksandspencer.uitesting.Screen
+import com.marksandspencer.uitesting.State
+import com.marksandspencer.uitesting.assertions.element
+
+class Button(override val matcher: SemanticsMatcher) : Element {
+
+    constructor(tag: String) : this(hasTestTag(tag))
 }
 
-extension Button {
-
-  public init(_ key: String) {
-    self.init(id: \.buttons[key])
-  }
-}
-
-extension State {
-
-  @discardableResult
-  public consuming func tap(
-    _ keyPath: KeyPath<Content, Button>
-  ) throws -> Self {
-    let button = try element(at: keyPath)
-    button.id(application).tap()
-    return self
-  }
+fun <Content : Screen> State<Content>.tap(
+    select: Content.() -> Element,
+): State<Content> {
+    val button = element(select)
+    button.id(compose).performClick()
+    return this
 }

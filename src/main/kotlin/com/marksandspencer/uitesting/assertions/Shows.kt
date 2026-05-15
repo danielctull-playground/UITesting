@@ -1,25 +1,18 @@
+package com.marksandspencer.uitesting.assertions
 
-extension State {
+import com.marksandspencer.uitesting.Screen
+import com.marksandspencer.uitesting.State
 
-  consuming func shows() throws -> Self {
-    do {
-      try element(at: \.id)
-      return self
-    } catch {
-      throw ViewDoesNotShow(view: content)
+@PublishedApi
+internal fun <Content : Screen> State<Content>.shows(): State<Content> {
+    try {
+        element { id }
+    } catch (_: ElementDoesNotExist) {
+        throw ScreenDoesNotShow(content)
     }
-  }
+    return this
 }
 
-// MARK: ViewDoesNotShow
-
-@MainActor
-struct ViewDoesNotShow<V: Screen>: Error {
-  fileprivate let view: V
-}
-
-extension ViewDoesNotShow: @MainActor CustomStringConvertible {
-  var description: String {
-    "View does not show. \(view)"
-  }
-}
+class ScreenDoesNotShow internal constructor(
+    val screen: Screen,
+) : AssertionError("Screen does not show. screen=$screen")

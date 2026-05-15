@@ -1,28 +1,25 @@
-import XCTest
+package com.marksandspencer.uitesting.elements
 
-public struct TextField: Element {
-  public let id: Query<XCUIElement>
-  public init(id: @escaping (XCUIApplication) -> XCUIElement) {
-    self.id = Query(id)
-  }
+import androidx.compose.ui.test.SemanticsMatcher
+import androidx.compose.ui.test.hasTestTag
+import androidx.compose.ui.test.performTextInput
+import com.marksandspencer.uitesting.Element
+import com.marksandspencer.uitesting.Screen
+import com.marksandspencer.uitesting.State
+import com.marksandspencer.uitesting.assertions.element
+
+sealed interface TextInput : Element
+
+class TextField(override val matcher: SemanticsMatcher) : TextInput {
+
+    constructor(tag: String) : this(hasTestTag(tag))
 }
 
-extension TextField {
-
-  public init(_ key: String) {
-    self.init(id: \.textFields[key])
-  }
-}
-
-extension State {
-
-  @discardableResult
-  public consuming func type(
-    _ text: String,
-    in keyPath: KeyPath<Content, TextField>
-  ) throws -> Self {
-    let textField = try element(at: keyPath)
-    textField.id(application).typeText(text)
-    return self
-  }
+fun <Content : Screen> State<Content>.type(
+    text: String,
+    into: Content.() -> TextInput,
+): State<Content> {
+    val textField = element(into)
+    textField.id(compose).performTextInput(text)
+    return this
 }

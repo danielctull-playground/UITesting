@@ -1,24 +1,26 @@
-import XCTest
+package com.marksandspencer.uitesting.elements
 
-public struct Navigation<Destination: Screen>: Element {
-  public let id: Query<XCUIElement>
-  public init(id: @escaping (XCUIApplication) -> XCUIElement) {
-    self.id = Query(id)
-  }
+import androidx.compose.ui.test.SemanticsMatcher
+import androidx.compose.ui.test.hasTestTag
+import androidx.compose.ui.test.performClick
+import com.marksandspencer.uitesting.Element
+import com.marksandspencer.uitesting.Screen
+import com.marksandspencer.uitesting.State
+import com.marksandspencer.uitesting.assertions.element
+import com.marksandspencer.uitesting.assertions.shows
+
+class Navigation<Destination : Screen>(
+    override val matcher: SemanticsMatcher,
+    val destination: () -> Destination,
+) : Element {
+
+    constructor(tag: String, destination: () -> Destination) : this(hasTestTag(tag), destination)
 }
 
-extension State {
-
-  @discardableResult
-  public consuming func tap<Destination: Screen>(
-    _ keyPath: KeyPath<Content, Navigation<Destination>>
-  ) throws -> State<Destination> {
-    let navigation = try element(at: keyPath)
-    navigation.id(application).tap()
-    let destination = State<Destination>(
-      application: application,
-      content: Destination()
-    )
-    return try destination.shows()
-  }
+fun <Content : Screen, Destination : Screen> State<Content>.navigate(
+    select: Content.() -> Navigation<Destination>,
+): State<Destination> {
+    val navigation = element(select)
+    navigation.id(compose).performClick()
+    return State(compose = compose, content = navigation.destination()).shows()
 }

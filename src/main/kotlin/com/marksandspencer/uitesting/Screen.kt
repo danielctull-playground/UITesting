@@ -1,14 +1,5 @@
-import XCTest
+package com.marksandspencer.uitesting
 
-@MainActor
-public protocol Screen {
-
-  init()
-
-  /// The element to look for to show that this view is on screen.
-  associatedtype ID: Element
-  var id: ID { get }
+interface Screen {
+    val id: Element
 }
-
-@available(*, deprecated, renamed: "Screen")
-public typealias View = Screen
