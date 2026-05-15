@@ -11,9 +11,9 @@ extension State {
 
   @discardableResult
   public consuming func tap<Destination: Screen>(
-    _ keyPath: KeyPath<Content, Navigation<Destination>>
+    _ select: (Content) -> Navigation<Destination>
   ) throws -> State<Destination> {
-    let navigation = try element(at: keyPath)
+    let navigation = try element(select)
     navigation.id(application).tap()
     let destination = State<Destination>(
       application: application,

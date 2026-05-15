@@ -19,9 +19,9 @@ extension State {
   @discardableResult
   public consuming func type(
     _ text: String,
-    in keyPath: KeyPath<Content, SecureTextField>
+    in select: (Content) -> SecureTextField
   ) throws -> Self {
-    let textField = try element(at: keyPath)
+    let textField = try element(select)
     textField.id(application).typeText(text)
     return self
   }

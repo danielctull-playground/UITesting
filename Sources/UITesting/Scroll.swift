@@ -9,12 +9,12 @@ extension State {
   /// `attempts` scrolls.
   @discardableResult
   public consuming func scroll<E: Element>(
-    to keyPath: KeyPath<Content, E>,
+    to select: (Content) -> E,
     direction: ScrollDirection = .down,
     in container: KeyPath<XCUIApplication, XCUIElement>? = nil,
     attempts: Int = 10
   ) throws -> Self {
-    let element = content[keyPath: keyPath]
+    let element = select(content)
     let xcui = element.id(application)
     let scrollContainer: XCUIElement = container.map { application[keyPath: $0] }
       ?? application.scrollViews.firstMatch

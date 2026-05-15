@@ -18,9 +18,9 @@ extension State {
 
   @discardableResult
   public consuming func tap(
-    _ keyPath: KeyPath<Content, Button>
+    _ select: (Content) -> Button
   ) throws -> Self {
-    let button = try element(at: keyPath)
+    let button = try element(select)
     button.id(application).tap()
     return self
   }

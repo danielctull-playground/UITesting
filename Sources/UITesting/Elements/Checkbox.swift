@@ -18,9 +18,9 @@ extension State {
 
   @discardableResult
   public consuming func toggle(
-    _ keyPath: KeyPath<Content, Checkbox>
+    _ select: (Content) -> Checkbox
   ) throws -> Self {
-    let checkbox = try element(at: keyPath)
+    let checkbox = try element(select)
     checkbox.id(application).tap()
     return self
   }

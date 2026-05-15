@@ -4,9 +4,9 @@ extension State {
 
   @discardableResult
   func element<E: Element>(
-    at keyPath: KeyPath<Content, E>
+    _ select: (Content) -> E
   ) throws -> E {
-    let element = content[keyPath: keyPath]
+    let element = select(content)
     guard element.id(application).waitForExistence(timeout: 10) else {
       throw ElementDoesNotExist(content: content, element: element)
     }
@@ -14,18 +14,18 @@ extension State {
   }
 
   @discardableResult
-  public consuming func expect(
-    exists keyPath: KeyPath<Content, some Element>
+  public consuming func expect<E: Element>(
+    exists select: (Content) -> E
   ) throws -> Self {
-    try element(at: keyPath)
+    try element(select)
     return self
   }
 
   @discardableResult
   public consuming func expect<E: Element>(
-    notExists keyPath: KeyPath<Content, E>
+    notExists select: (Content) -> E
   ) throws -> Self {
-    let element = content[keyPath: keyPath]
+    let element = select(content)
     let xcuiElement = element.id(application)
     let predicate = NSPredicate(format: "exists == false")
     let expectation = XCTNSPredicateExpectation(predicate: predicate, object: xcuiElement)
