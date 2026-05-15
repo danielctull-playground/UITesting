@@ -8,22 +8,24 @@ public struct State<Content: Screen>: ~Copyable {
 
 extension State {
 
-  consuming func perform<E: Element>(
+  consuming func perform<E: Element, each Parameter>(
     with keyPath: KeyPath<Content, E>,
-    _ action: @Sendable @MainActor (XCUIElement) -> () -> Void
+    _ action: @Sendable @MainActor (XCUIElement) -> (repeat each Parameter) -> Void,
+    _ parameter: repeat each Parameter
   ) throws -> Self where E.Destination == Never {
     let button = try element(at: keyPath)
-    action(button.id(application))()
+    action(button.id(application))(repeat each parameter)
     return self
   }
 
-  consuming func perform<E: Element>(
+  consuming func perform<E: Element, each Parameter>(
     with keyPath: KeyPath<Content, E>,
-    _ action: @Sendable @MainActor (XCUIElement) -> () -> Void
+    _ action: @Sendable @MainActor (XCUIElement) -> (repeat each Parameter) -> Void,
+    _ parameter: repeat each Parameter
   ) throws -> State<E.Destination> {
 
     let button = try element(at: keyPath)
-    action(button.id(application))()
+    action(button.id(application))(repeat each parameter)
 
     let destination = State<E.Destination>(
       application: application,

@@ -1,3 +1,4 @@
+import XCTest
 
 extension State {
 
@@ -6,9 +7,7 @@ extension State {
     _ text: String,
     in keyPath: KeyPath<Content, TextField>
   ) throws -> Self {
-    let textField = try element(at: keyPath)
-    textField.id(application).typeText(text)
-    return self
+    try perform(with: keyPath, XCUIElement.typeText, text)
   }
 
   @discardableResult
@@ -16,8 +15,6 @@ extension State {
     _ text: String,
     in keyPath: KeyPath<Content, SecureTextField>
   ) throws -> Self {
-    let textField = try element(at: keyPath)
-    textField.id(application).typeText(text)
-    return self
+    try perform(with: keyPath, XCUIElement.typeText, text)
   }
 }
