@@ -14,15 +14,3 @@ extension Checkbox {
     self.init(id: \.checkBoxes[key])
   }
 }
-
-extension State {
-
-  @discardableResult
-  public consuming func toggle(
-    _ keyPath: KeyPath<Content, Checkbox>
-  ) throws -> Self {
-    let checkbox = try element(at: keyPath)
-    checkbox.id(application).tap()
-    return self
-  }
-}

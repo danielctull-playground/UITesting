@@ -24,7 +24,7 @@ func test() throws {
       try $0
         .type("daniel", in: \.username)
         .type("secret", in: \.password)
-        .toggle(\.agreement)
+        .tap(\.agreement)
         .tap(\.login)
     }
     .expect(\.message.value, is: "hello, daniel")
