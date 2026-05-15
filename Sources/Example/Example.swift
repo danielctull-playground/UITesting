@@ -11,8 +11,8 @@ struct Main: Screen {
 }
 
 struct Detail: Screen  {
-  var id: Query<XCUIElement> { title.id }
-  let title = Text("detail-title")
+  var id: Query<XCUIElement> { message.id }
+  let message = Text("detail-title")
 }
 
 @MainActor
@@ -27,5 +27,5 @@ func test() throws {
         .toggle(\.agreement)
         .tap(\.login)
     }
-    .expect(\.title.value, is: "hello, daniel")
+    .expect(\.message.value, is: "hello, daniel")
 }
