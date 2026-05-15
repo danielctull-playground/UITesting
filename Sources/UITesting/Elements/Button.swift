@@ -1,6 +1,9 @@
 import XCTest
 
 public struct Button<Destination: Screen>: Element {
+
+  public static var kind: XCUIElement.ElementType { .button }
+
   public let id: Query<XCUIElement>
 
   public init(
@@ -8,12 +11,5 @@ public struct Button<Destination: Screen>: Element {
     destination: Destination.Type = Never.self
   ) {
     self.id = Query(id)
-  }
-}
-
-extension Button {
-
-  public init(_ key: String, destination: Destination.Type = Never.self) {
-    self.init(id: \.buttons[key], destination: destination)
   }
 }
