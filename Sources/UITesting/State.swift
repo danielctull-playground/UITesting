@@ -5,3 +5,31 @@ public struct State<Content: Screen>: ~Copyable {
   let application: XCUIApplication
   let content: Content
 }
+
+extension State {
+
+  consuming func perform<E: Element>(
+    with keyPath: KeyPath<Content, E>,
+    _ action: @Sendable @MainActor (XCUIElement) -> () -> Void
+  ) throws -> Self where E.Destination == Never {
+    let button = try element(at: keyPath)
+    action(button.id(application))()
+    return self
+  }
+
+  consuming func perform<E: Element>(
+    with keyPath: KeyPath<Content, E>,
+    _ action: @Sendable @MainActor (XCUIElement) -> () -> Void
+  ) throws -> State<E.Destination> {
+
+    let button = try element(at: keyPath)
+    action(button.id(application))()
+
+    let destination = State<E.Destination>(
+      application: application,
+      content: E.Destination()
+    )
+
+    return try destination.shows()
+  }
+}
