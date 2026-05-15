@@ -1,3 +1,4 @@
+import XCTest
 
 extension State {
 
@@ -5,23 +6,13 @@ extension State {
   public consuming func tap<E: Element>(
     _ keyPath: KeyPath<Content, E>
   ) throws -> Self where E.Destination == Never {
-    let button = try element(at: keyPath)
-    button.id(application).tap()
-    return self
+    try perform(with: keyPath, XCUIElement.tap)
   }
 
   @discardableResult
   public consuming func tap<E: Element>(
     _ keyPath: KeyPath<Content, E>
   ) throws -> State<E.Destination> {
-    let button = try element(at: keyPath)
-    button.id(application).tap()
-
-    let destination = State<E.Destination>(
-      application: application,
-      content: E.Destination()
-    )
-
-    return try destination.shows()
+    try perform(with: keyPath, XCUIElement.tap)
   }
 }
