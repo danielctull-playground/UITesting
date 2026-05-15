@@ -9,6 +9,3 @@ public protocol Screen {
   associatedtype ID: Element
   var id: ID { get }
 }
-
-@available(*, deprecated, renamed: "Screen")
-public typealias View = Screen
