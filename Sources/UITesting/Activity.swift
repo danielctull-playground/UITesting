@@ -22,4 +22,27 @@ extension State {
 
     return State<Return>(application: application, content: new)
   }
+
+  /// Async variant of `activity(_:perform:)`. Useful when the work performed
+  /// inside the activity needs to `await` (e.g. swapping a network stub at a
+  /// specific point in a UI flow) without breaking the surrounding chain.
+  ///
+  /// Note: `XCTContext.runActivity` is synchronous and cannot host an `await`,
+  /// so this variant does **not** add a named entry to the test report — the
+  /// `name` is currently informational only and may be surfaced by a future
+  /// version once `XCTContext` gains async support.
+  @discardableResult
+  public consuming func activity<Return>(
+    _ name: String,
+    perform action: (consuming Self) async throws -> State<Return>
+  ) async rethrows -> State<Return> {
+    _ = name
+    let application = self.application
+    let content = self.content
+
+    let state = State(application: application, content: content)
+    let new = try await action(state).content
+
+    return State<Return>(application: application, content: new)
+  }
 }
