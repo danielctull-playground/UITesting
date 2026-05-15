@@ -3,7 +3,7 @@ extension State {
 
   consuming func shows() throws -> Self {
     do {
-      try element(at: \.id)
+      try exists(content.id)
       return self
     } catch {
       throw ViewDoesNotShow(view: content)

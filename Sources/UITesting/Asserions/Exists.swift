@@ -2,22 +2,17 @@ import XCTest
 
 extension State {
 
-  @discardableResult
-  func element<E: Element>(
-    at keyPath: KeyPath<Content, E>
-  ) throws -> E {
-    let element = content[keyPath: keyPath]
-    guard element.id(application).waitForExistence(timeout: 10) else {
+  func exists(_ element: Query<XCUIElement>) throws {
+    guard element(application).waitForExistence(timeout: 10) else {
       throw ElementDoesNotExist(content: content, element: element)
     }
-    return element
   }
 
   @discardableResult
   public consuming func expect(
     exists keyPath: KeyPath<Content, some Element>
   ) throws -> Self {
-    try element(at: keyPath)
+    try exists(content[keyPath: keyPath].id)
     return self
   }
 }
@@ -25,9 +20,9 @@ extension State {
 // MARK: ElementDoesNotExist
 
 @MainActor
-struct ElementDoesNotExist<Content: Screen, E: Element>: Error {
+struct ElementDoesNotExist<Content: Screen>: Error {
   fileprivate let content: Content
-  fileprivate let element: E
+  fileprivate let element: Query<XCUIElement>
 }
 
 extension ElementDoesNotExist: @MainActor CustomStringConvertible {
