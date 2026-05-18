@@ -11,10 +11,10 @@ extension State {
   ///
   /// - Returns: The screen state.
   @discardableResult
-  public consuming func press<E: Element>(
-    _ keyPath: KeyPath<Screen, E>,
+  public consuming func press<Element: UITesting.Element>(
+    _ keyPath: KeyPath<Screen, Element>,
     for duration: TimeInterval
-  ) throws -> Self where E.Destination == Never {
+  ) throws -> Self where Element.Destination == Never {
     try perform(with: keyPath, XCUIElement.press(forDuration:), duration)
   }
 }

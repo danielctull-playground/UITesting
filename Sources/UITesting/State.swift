@@ -8,28 +8,28 @@ public struct State<Screen: UITesting.Screen>: ~Copyable {
 
 extension State {
 
-  consuming func perform<E: Element, each Parameter>(
-    with keyPath: KeyPath<Screen, E>,
+  consuming func perform<Element: UITesting.Element, each Parameter>(
+    with keyPath: KeyPath<Screen, Element>,
     _ action: @Sendable @MainActor (XCUIElement) -> (repeat each Parameter) -> Void,
     _ parameter: repeat each Parameter
-  ) throws -> Self where E.Destination == Never {
+  ) throws -> Self where Element.Destination == Never {
     let element = try element(at: keyPath)
     action(element.id(application))(repeat each parameter)
     return self
   }
 
-  consuming func perform<E: Element, each Parameter>(
-    with keyPath: KeyPath<Screen, E>,
+  consuming func perform<Element: UITesting.Element, each Parameter>(
+    with keyPath: KeyPath<Screen, Element>,
     _ action: @Sendable @MainActor (XCUIElement) -> (repeat each Parameter) -> Void,
     _ parameter: repeat each Parameter
-  ) throws -> State<E.Destination> {
+  ) throws -> State<Element.Destination> {
 
     let element = try element(at: keyPath)
     action(element.id(application))(repeat each parameter)
 
-    let destination = State<E.Destination>(
+    let destination = State<Element.Destination>(
       application: application,
-      screen: E.Destination()
+      screen: Element.Destination()
     )
 
     return try destination.waitForScreenExistence()
