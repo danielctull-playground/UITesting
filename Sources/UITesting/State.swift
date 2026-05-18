@@ -32,6 +32,6 @@ extension State {
       content: E.Destination()
     )
 
-    return try destination.shows()
+    return try destination.waitForScreenExistence()
   }
 }

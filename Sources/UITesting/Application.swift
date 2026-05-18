@@ -7,7 +7,7 @@ extension XCUIApplication {
   ) throws -> UITesting.State<Content> {
     launch()
     return try UITesting.State<Content>(application: self, content: Content())
-      .shows()
+      .waitForScreenExistence()
   }
 }
 
