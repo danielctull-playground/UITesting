@@ -45,7 +45,7 @@ extension State {
     at keyPath: KeyPath<Content, E>
   ) throws -> E {
     let element = content[keyPath: keyPath]
-    try exists(element.id)
+    try waitForExistence(of: element.id)
     return element
   }
 }

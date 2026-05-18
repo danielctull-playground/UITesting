@@ -2,7 +2,7 @@ import XCTest
 
 extension State {
 
-  func exists(_ element: Query<XCUIElement>) throws {
+  func waitForExistence(of element: Query<XCUIElement>) throws {
     guard element(application).waitForExistence(timeout: 10) else {
       throw ElementDoesNotExist(content: content, element: element)
     }
@@ -12,7 +12,7 @@ extension State {
   public consuming func expect(
     exists keyPath: KeyPath<Content, some Element>
   ) throws -> Self {
-    try exists(content[keyPath: keyPath].id)
+    try waitForExistence(of: content[keyPath: keyPath].id)
     return self
   }
 }
