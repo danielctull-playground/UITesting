@@ -4,15 +4,15 @@ extension State {
 
   func waitForExistence(of element: Query<XCUIElement>) throws {
     guard element(application).waitForExistence(timeout: 10) else {
-      throw ElementDoesNotExist(content: content, element: element)
+      throw ElementDoesNotExist(screen: screen, element: element)
     }
   }
 
   @discardableResult
   public consuming func expect(
-    exists keyPath: KeyPath<Content, some Element>
+    exists keyPath: KeyPath<Screen, some Element>
   ) throws -> Self {
-    try waitForExistence(of: content[keyPath: keyPath].id)
+    try waitForExistence(of: screen[keyPath: keyPath].id)
     return self
   }
 }
@@ -20,13 +20,13 @@ extension State {
 // MARK: ElementDoesNotExist
 
 @MainActor
-struct ElementDoesNotExist<Content: Screen>: Error {
-  fileprivate let content: Content
+struct ElementDoesNotExist<Screen: UITesting.Screen>: Error {
+  fileprivate let screen: Screen
   fileprivate let element: Query<XCUIElement>
 }
 
 extension ElementDoesNotExist: @MainActor CustomStringConvertible {
   var description: String {
-    "Element does not exist. \(content) \(element)"
+    "Element does not exist. \(screen) \(element)"
   }
 }

@@ -5,7 +5,7 @@ extension State {
   @discardableResult
   public consuming func type(
     _ text: String,
-    in keyPath: KeyPath<Content, TextField>
+    in keyPath: KeyPath<Screen, TextField>
   ) throws -> Self {
     try perform(with: keyPath, XCUIElement.typeText, text)
   }
@@ -13,7 +13,7 @@ extension State {
   @discardableResult
   public consuming func type(
     _ text: String,
-    in keyPath: KeyPath<Content, SecureTextField>
+    in keyPath: KeyPath<Screen, SecureTextField>
   ) throws -> Self {
     try perform(with: keyPath, XCUIElement.typeText, text)
   }

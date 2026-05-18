@@ -42,9 +42,9 @@ extension Element {
 extension State {
 
   func element<E: Element>(
-    at keyPath: KeyPath<Content, E>
+    at keyPath: KeyPath<Screen, E>
   ) throws -> E {
-    let element = content[keyPath: keyPath]
+    let element = screen[keyPath: keyPath]
     try waitForExistence(of: element.id)
     return element
   }

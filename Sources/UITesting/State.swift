@@ -1,15 +1,15 @@
 import XCTest
 
 @MainActor
-public struct State<Content: Screen>: ~Copyable {
+public struct State<Screen: UITesting.Screen>: ~Copyable {
   let application: XCUIApplication
-  let content: Content
+  let screen: Screen
 }
 
 extension State {
 
   consuming func perform<E: Element, each Parameter>(
-    with keyPath: KeyPath<Content, E>,
+    with keyPath: KeyPath<Screen, E>,
     _ action: @Sendable @MainActor (XCUIElement) -> (repeat each Parameter) -> Void,
     _ parameter: repeat each Parameter
   ) throws -> Self where E.Destination == Never {
@@ -19,7 +19,7 @@ extension State {
   }
 
   consuming func perform<E: Element, each Parameter>(
-    with keyPath: KeyPath<Content, E>,
+    with keyPath: KeyPath<Screen, E>,
     _ action: @Sendable @MainActor (XCUIElement) -> (repeat each Parameter) -> Void,
     _ parameter: repeat each Parameter
   ) throws -> State<E.Destination> {
@@ -29,7 +29,7 @@ extension State {
 
     let destination = State<E.Destination>(
       application: application,
-      content: E.Destination()
+      screen: E.Destination()
     )
 
     return try destination.waitForScreenExistence()

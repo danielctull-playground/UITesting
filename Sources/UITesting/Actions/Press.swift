@@ -12,7 +12,7 @@ extension State {
   /// - Returns: The screen state.
   @discardableResult
   public consuming func press<E: Element>(
-    _ keyPath: KeyPath<Content, E>,
+    _ keyPath: KeyPath<Screen, E>,
     for duration: TimeInterval
   ) throws -> Self where E.Destination == Never {
     try perform(with: keyPath, XCUIElement.press(forDuration:), duration)

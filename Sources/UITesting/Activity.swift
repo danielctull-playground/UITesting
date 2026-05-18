@@ -12,13 +12,13 @@ extension State {
     // recreated because it can't be copied out of the closure.
 
     let application = self.application
-    let content = self.content
+    let screen = self.screen
 
     let new = try XCTContext.runActivity(named: name) { _ in
-      let state = State(application: application, content: content)
-      return try action(state).content
+      let state = State(application: application, screen: screen)
+      return try action(state).screen
     }
 
-    return State<Return>(application: application, content: new)
+    return State<Return>(application: application, screen: new)
   }
 }

@@ -2,11 +2,11 @@ import XCTest
 
 extension XCUIApplication {
 
-  public func launch<Content: Screen>(
-    expecting: Content.Type
-  ) throws -> UITesting.State<Content> {
+  public func launch<Screen: UITesting.Screen>(
+    expecting: Screen.Type
+  ) throws -> UITesting.State<Screen> {
     launch()
-    return try UITesting.State<Content>(application: self, content: Content())
+    return try UITesting.State<Screen>(application: self, screen: Screen())
       .waitForScreenExistence()
   }
 }
