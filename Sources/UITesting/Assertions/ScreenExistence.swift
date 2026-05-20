@@ -3,10 +3,10 @@ extension State {
 
   consuming func waitForScreenExistence() throws -> Self {
     do {
-      try waitForExistence(of: screen.id)
+      try waitForExistence(of: screens.head.id)
       return self
     } catch {
-      throw ScreenDoesNotExist(screen: screen)
+      throw ScreenDoesNotExist(screen: screens.head)
     }
   }
 }

@@ -12,7 +12,7 @@ extension State {
   /// - Returns: The screen state.
   @discardableResult
   public consuming func press<Element: UITesting.Element>(
-    _ keyPath: KeyPath<Screen, Element>,
+    _ keyPath: KeyPath<Screens.Head, Element>,
     for duration: TimeInterval
   ) throws -> Self where Element.Destination == Never {
     try perform(with: keyPath, XCUIElement.press(forDuration:), duration)

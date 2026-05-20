@@ -42,9 +42,9 @@ extension Element {
 extension State {
 
   func element<Element: UITesting.Element>(
-    at keyPath: KeyPath<Screen, Element>
+    at keyPath: KeyPath<Screens.Head, Element>
   ) throws -> Element {
-    let element = screen[keyPath: keyPath]
+    let element = screens.head[keyPath: keyPath]
     try waitForExistence(of: element.id)
     return element
   }

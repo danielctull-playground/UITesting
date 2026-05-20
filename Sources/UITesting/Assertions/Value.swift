@@ -4,10 +4,10 @@ extension State {
 
   @discardableResult
   public consuming func expect<Value: Equatable>(
-    _ keyPath: KeyPath<Screen, Query<Value>>,
+    _ keyPath: KeyPath<Screens.Head, Query<Value>>,
     is expected: Value
   ) throws -> Self {
-    let query = screen[keyPath: keyPath]
+    let query = screens.head[keyPath: keyPath]
     let value = query(application)
     guard value == expected else {
       throw IncorrectValue(value: value, expected: expected)

@@ -4,9 +4,9 @@ extension XCUIApplication {
 
   public func launch<Screen: UITesting.Screen>(
     expecting: Screen.Type
-  ) throws -> UITesting.State<Screen> {
+  ) throws -> UITesting.State<Node<Screen, Never>> {
     launch()
-    return try UITesting.State<Screen>(application: self, screen: Screen())
+    return try UITesting.State(application: self, screens: Node(head: Screen()))
       .waitForScreenExistence()
   }
 }

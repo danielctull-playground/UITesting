@@ -13,6 +13,7 @@ struct Main: Screen {
 struct Detail: Screen  {
   var id: ID { message.id }
   let message = Text("detail-title")
+  let back = Button("back", destination: Previous.self)
 }
 
 @MainActor
@@ -20,6 +21,15 @@ func test() throws {
 
   try XCUIApplication(bundleIdentifier: "bundle.id")
     .launch(expecting: Main.self)
+    .activity("Login") {
+      try $0
+        .type("daniel", in: \.username)
+        .type("secret", in: \.password)
+        .tap(\.agreement)
+        .tap(\.login)
+    }
+    .expect(\.message.value, is: "hello, daniel")
+    .tap(\.back)
     .activity("Login") {
       try $0
         .type("daniel", in: \.username)
